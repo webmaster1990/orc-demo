@@ -1,0 +1,16 @@
+import React from 'react';
+import DefaultLayout from './containers/DefaultLayout';
+
+const Home = React.lazy(() => import('./views/Home/index'));
+const AuditDashboard = React.lazy(() => import('./views/Terminations/AuditDashboard'));
+const Failures = React.lazy(() => import('./views/Terminations/Failures'));
+const routes = [
+  { path: '/', exact: true, name: 'Home', component: DefaultLayout },
+  { path: '/home', name: 'Home', component: Home },
+  { path: '/audit-dashboard', name: 'Audit Dashboard', component: AuditDashboard },
+  { path: '/failures', name: 'Failures', component: Failures },
+
+
+];
+
+export default routes;

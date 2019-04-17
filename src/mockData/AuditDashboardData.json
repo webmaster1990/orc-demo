@@ -1,0 +1,101 @@
+{
+  "auditData" : [
+    {
+
+      "CreateTimeStamp":"2019-04-15 10:06:01.000001",
+
+      "Application":"NA",
+
+      "accountID":"NA",
+
+      "eventMessage":"Load CSV files",
+
+      "eventDescription":"description",
+
+      "operation":"EXTRACTION and PAYLOAD GENERATION",
+
+      "status":"Success"
+
+    },{
+
+      "CreateTimeStamp":"2019-04-15 10:06:02.000001",
+
+      "Application":"NA",
+
+      "accountID":"NA",
+
+      "eventMessage":"Read and Parse each CSV files",
+
+      "eventDescription":"description",
+
+      "operation":"EXTRACTION and PAYLOAD GENERATION",
+
+      "status":"Success"
+
+    },{
+
+      "CreateTimeStamp":"2019-04-15 10:06:03.000001",
+
+      "Application":"NA",
+
+      "accountID":"NA",
+
+      "eventMessage":"Read each Record",
+
+      "eventDescription":"description",
+
+      "operation":"EXTRACTION and PAYLOAD GENERATION",
+
+      "status":"Success"
+
+    }, {
+
+      "CreateTimeStamp":"2019-04-15 10:06:04.000001",
+
+      "Application":"AD",
+
+      "accountID":"e014567",
+
+      "eventMessage":"Generate SCIM Payload",
+
+      "eventDescription":"description",
+
+      "operation":"EXTRACTION and PAYLOAD GENERATION",
+
+      "status":"Success"
+
+    },{
+
+      "CreateTimeStamp":"2019-04-15 10:06:05.000001",
+
+      "Application":"AD",
+
+      "accountID":"e014567",
+
+      "eventMessage":"Execute SCIM Service",
+
+      "eventDescription":"description",
+
+      "operation":"EXTRACTION and PAYLOAD GENERATION",
+
+      "status":"Success"
+
+    },{
+
+      "CreateTimeStamp":"2019-04-15 10:06:06.000001",
+
+      "Application":"AD",
+
+      "accountID":"e014567",
+
+      "eventMessage":"SCIM response",
+
+      "eventDescription":"description",
+
+      "operation":"EXTRACTION and PAYLOAD GENERATION",
+
+      "status":"Success"
+    }
+  ]
+
+}

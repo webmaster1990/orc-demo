@@ -1,0 +1,195 @@
+// Styles
+// CoreUI Icons Set
+@import '~@coreui/icons/css/coreui-icons.css';
+// Import Flag Icons Set
+@import '~flag-icon-css/css/flag-icon.min.css';
+// Import Font Awesome Icons Set
+@import '~font-awesome/css/font-awesome.min.css';
+// Import Simple Line Icons Set
+@import '~simple-line-icons/css/simple-line-icons.css';
+// Import Main styles for this application
+@import './scss/style.scss';
+@import './scss/variables.scss';
+
+body {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.main {
+  .ant-card-wider-padding {
+    .ant-card-body {
+      padding: 15px;
+    }
+  }
+  .ant-card-body {
+    padding: 15px;
+  }
+}
+.modal-info {
+  .modal-content {
+    border:0px ;
+    border-radius: 0;
+  }
+  .modal-header {
+    border-top-left-radius: 0;
+     border-top-right-radius: 0;
+  }
+}
+.modal-primary {
+  .modal-content {
+    border:0px ;
+    border-radius: 0;
+  }
+  .modal-header {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+.modal-title {
+  color: #fff !important;
+}
+
+.table td {
+  padding: 0;
+  vertical-align: top;
+   border-top: 0;
+}
+.badge {
+  color: #fff;
+  font-size: 13px;
+  height: 25px;
+  padding-top: 6px;
+  padding-left: 6px;
+  padding-right: 6px;
+  border-radius: 30px;
+  background-color: #ea4b51;
+  text-shadow: none;
+  font-weight: normal;
+
+  &.red {
+    background-color: $red-badge-color;
+  }
+  &.green {
+    background-color: $green-badge-color;
+  }
+  &.blue {
+    background-color:$blue-badge-color;
+  }
+  &.orange {
+    background-color:$orange-badge-color;
+  }
+  &.light-blue{
+    background-color:$light-blue-badge-color;
+  }
+  &.small {
+      font-size: 10px;
+      height: 22px;
+  }
+}
+
+.flex-align-item-center{
+  align-items: center
+}
+
+.card-icon {
+  width: 35px;
+  height: 35px;
+  color: #fff;
+  font-size: 20px;
+  padding: 2px 0;
+  border-radius: 0;
+  color: #fff !important;
+  cursor: pointer;
+
+  &.bg-white {
+    background-color: $btn-bac-white;
+  }
+  .blue {
+    border-color: $blue-badge-color;
+    color: #20a8d8 !important;
+  }
+  .green {
+    border-color: #4dbd74;
+    color: #4dbd74 !important;
+  }
+  .red {
+    border-color: #f86c6b;
+    color: #f86c6b !important;
+  }
+}
+
+.form-control {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.inline-block{
+  display: inline-block !important;
+}
+.small-width-btn{
+  width: 35px !important;
+}
+.small-height-btn{
+  height: 30px;
+  padding: 5px;
+}
+.inline-block{
+  display: inline-block !important;
+}
+.custom-button{
+  border-radius: 0 !important;
+  width: 60px !important;
+  display: inline-block !important;
+  margin-right: 5px !important;
+}
+.custom-button-small{
+  border-radius: 0 !important;
+  width: 25px !important;
+  display: inline-block !important;
+}
+.table-with-scroll {
+  .ant-table-body {
+    overflow-x: auto;
+  }
+}
+.remove-btn-border-radius{
+  border-radius: 0 ;
+}
+.btn-dribbbl {
+  color: #76838f;
+  background-color: #e4eaec;
+  border-color: #e4eaec;
+}
+.left-filter {
+  margin-top: -23px;
+  padding-top: 10px;
+  margin-left: -15px;
+  background: #fff;
+}
+
+.ant-card {
+  &.no-padding {
+    > .ant-card-body {
+      padding: 0;
+    }
+  }
+  &.no-border {
+    border: none;
+  }
+}
+
+.fa-15x {
+  font-size: 1.5em;
+}
+.ant-badge-status-dot {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+@media (max-width: 992px) {
+  .main {
+    .container-fluid {
+      padding: 0 15px;
+    }
+  }
+}
