@@ -1,9 +1,10 @@
 import React,{Component} from 'react';
-import {Badge, Button, Card, CardBody, Col, Row,} from "reactstrap";
+import {Button, Card, CardBody, Col, Row,} from "reactstrap";
 import { DatePicker } from 'antd';
 import auditDashboardData from '../../mockData/AuditDashboardData'
 import { Table,Tag } from 'antd';
 import moment from "moment";
+import { CSVLink } from "react-csv";
 
 const columns = [{
   title: 'Date',
@@ -23,7 +24,15 @@ const columns = [{
   dataIndex: 'status',
   render: status =><div><Tag color={status === "Success" ? 'green' : 'volcano'}>{status}</Tag></div>
 }, ];
-
+ const headers = [
+  { label: "Application", key: "Application" },
+  { label: "Create Time Stamp", key: "CreateTimeStamp" },
+  { label: "Account ID", key: "accountID" },
+  { label: "Event Description", key: "eventDescription" },
+  { label: "Event Message", key: "eventMessage" },
+  { label: "Operation", key: "operation" },
+  { label: "Status", key: "status" },
+];
 const {  RangePicker } = DatePicker;
 
 class AuditDashboard extends Component{
@@ -63,6 +72,7 @@ class AuditDashboard extends Component{
 
   render() {
     const { auditDashboardData, selectDateRange } = this.state
+    console.log("===========auditDashboardData=========>",auditDashboardData)
     return(
       <div className="animated fadeIn">
         <Row>
@@ -87,8 +97,13 @@ class AuditDashboard extends Component{
                     {
                       selectDateRange && auditDashboardData.length > 0 ?
                         <div>
-                          <Button type="button" color="primary" className="btn-sm pull-right">Refresh   <i className="fa fa-refresh"/></Button>
-                          <Table columns={columns} dataSource={auditDashboardData}/>
+                          <div className="text-right mb-3">
+                            <Button type="button" color="primary" className="btn-sm">Refresh   <i className="fa fa-refresh"/></Button>
+                            <CSVLink data={auditDashboardData} headers={headers}   filename={"audit.csv"}>
+                              <Button type="button" color="primary" className="btn-sm ml-2">Download CSV   <i className="fa fa-refresh"/></Button>
+                            </CSVLink>
+                          </div>
+                          <Table columns={columns} size={"small"} dataSource={auditDashboardData}/>
                         </div> : null
                     }
                   </Col>

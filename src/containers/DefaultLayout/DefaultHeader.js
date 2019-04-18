@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink } from 'reactstrap';
 import { connect } from 'react-redux'
 import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import { toggleSideBar } from '../../redux/actions/settings';
-import logo from '../../assets/img/logo.png'
+import logo from '../../assets/img/kapstone-high-resl-logo.png'
 import sygnet from '../../assets/img/brand/sygnet.svg'
 
 class DefaultHeader extends Component {
@@ -23,7 +22,15 @@ class DefaultHeader extends Component {
         <span onClick={() => toggleSideBar()}>
           <AppSidebarToggler className="d-md-down-none" display="lg" />
         </span>
+        <ul className="nav ml-auto navbar-nav d-md-down-none">
+          <li className="nav-item px-3">
+            <a className="nav-link" href="/home"><h2 className="mb-0 mt-1">Mastercard Automation Engine</h2></a>
+          </li>
+        </ul>
         <Nav className="ml-auto" navbar>
+          <NavItem className="d-md-down-none">
+            <NavLink href="#"></NavLink>
+          </NavItem>
           <NavItem className="d-md-down-none">
             <NavLink href="#"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink>
           </NavItem>
