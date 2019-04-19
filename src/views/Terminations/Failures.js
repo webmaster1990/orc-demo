@@ -15,7 +15,9 @@ const columns = [
       return <span>{record.userObject && record.userObject.UserID}</span>
     }
   },
-  { title: 'Application ID', dataIndex: 'applicationID' },
+  { title: 'Application ID',
+    dataIndex: 'applicationID'
+  },
   { title: 'Last retry',
     dataIndex: 'triggeredOn',
     render: triggeredOn =><span>{moment(triggeredOn).format('MMMM Do YYYY h:mm:ss a')}</span>,
@@ -52,13 +54,10 @@ class Failures extends Component{
         applicationID: item.applicationID
       };
     });
-
-
   }
 
   render() {
     const { retryTransnationalData } = this.state
-    console.log("==========RetryTransnationalData=========>",retryTransnationalData)
     return(
       <div className="animated fadeIn">
         <Row>
@@ -80,6 +79,7 @@ class Failures extends Component{
                     <Table
                       columns={columns}
                       size="small"
+                      scroll={{ x: 768 }}
                       expandedRowRender={record => {
                         return  record.updateOn.map((data) => {
                           return (
@@ -102,6 +102,5 @@ class Failures extends Component{
       </div>
     )
   }
-
 }
 export default Failures
