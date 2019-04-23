@@ -11,9 +11,6 @@
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "core-js": "^2.6.5",
-    "devextreme": "^18.2.7",
-    "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.10.0",
     "flag-icon-css": "^3.3.0",
     "font-awesome": "^4.7.0",
     "history": "^4.9.0",
@@ -31,14 +28,16 @@
     "react-router-config": "^4.4.0-beta.6",
     "react-router-dom": "^4.3.1",
     "react-spinners": "^0.5.3",
-    "react-test-renderer": "^16.8.4",
     "reactstrap": "^7.1.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "simple-line-icons": "^2.4.1"
   },
   "devDependencies": {
-    "react-scripts": "2.1.5"
+    "react-scripts": "2.1.5",
+    "react-test-renderer": "^16.8.4",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.10.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -57,7 +56,7 @@
     "not ie <= 9",
     "not op_mini all"
   ],
-  "proxy": "http://129.213.127.79:14000/",
+  "proxy": "http://132.145.170.253:8080/",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",

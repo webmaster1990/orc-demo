@@ -17,7 +17,7 @@ axiosInstance.interceptors.response.use((response) => (response), error => {
 
 export class ApiService {
 
-  getAuthToken = () => localStorage.getItem('access_token');
+  getAuthToken = () => 'fhsmrfrrscavdsaeaeifmdadadmvassaewwqqwldcqor' || localStorage.getItem('access_token');
 
   async getData(url, headers, cancelToken) {
     const config = {
@@ -63,70 +63,12 @@ export class ApiService {
     return response.data;
   }
 
-  async getPendingApprovals() {
-    return this.getData('selfservice/api/v1/requests?view=pendingApprovals');
+  async getAuditData() {
+    return this.getData('AuditService/jersey/api/v1/allMessage?topic=User_Termination_processV1');
   }
-
-  async getUserById(id) {
-    return this.getData(`selfservice/api/v1/users/${id}`);
+  
+  async getFailures() {
+    return this.getData('/AuditService/jersey/api/v1/allMessage?topic=Retry_failed_transaction_processV1');
   }
-
-  async getChallangeQuestionsById(id) {
-    return this.getData(`selfservice/api/v1/users/${id}/challengequestions`);
-  }
-
-  async getPendingRequests() {
-    return this.getData('selfservice/api/v1/requests?requestStatus=pending');
-  }
-
-  async getPendingCertifications() {
-    return this.getData('selfservice/api/v1/certifications');
-  }
-
-  async getRoles() {
-    return this.getData('selfservice/api/v1/roles?userId=1');
-  }
-
-  async getEntitlements() {
-    return this.getData('selfservice/api/v1/entitlements?userId=1');
-  }
-
-  async getApplications() {
-    return this.getData('selfservice/api/v1/accounts?userId=1');
-  }
-
-  async getAllManageDashboard() {
-    return this.getData('selfservice/api/v1/users/1/directs');
-  }
-  async getCertifications() {
-    return this.getData('selfservice/api/v1/certifications');
-  }
-  async getProxy(id) {
-    return this.getData(`selfservice/api/v1/users/${id}/proxies`);
-  }
-  async updateProfile(data) {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-REQUESTED-BY': '12345',
-        'authorization': `Bearer ${this.getAuthToken()}`,
-      }
-    };
-    const response = await axiosInstance.put('selfservice/api/v1/users/41', data, config);
-    return response.data;
-  }
-
-  async changePassword(data) {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-REQUESTED-BY': '12345',
-        'authorization': `Bearer ${this.getAuthToken()}`,
-      }
-    };
-    const response = await axiosInstance.put('selfservice/api/v1/users/34/password', data, config);
-    return response.data;
-  }
+  
 }
