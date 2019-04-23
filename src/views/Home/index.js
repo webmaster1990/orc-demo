@@ -56,7 +56,7 @@ class Home extends Component{
                 <Row>
                   <Col xs="12" sm="12" lg="3">
                     <Card className="shadow-lg cursor-pointer" onClick={this.auditDashboardModalOpen}>
-                      <CardHeader className="bg-info">
+                      <CardHeader className="bg-primary">
                         <i className="icon-user icons d-block text-center"  style={{fontSize:100}}/>
                       </CardHeader>
                       <CardBody>
@@ -66,7 +66,7 @@ class Home extends Component{
                   </Col>
                   <Col xs="12" sm="12" lg="3">
                     <Card className="shadow-lg cursor-pointer">
-                      <CardHeader className="bg-info">
+                      <CardHeader className="bg-primary">
                         <i className="icon-user icons d-block text-center"  style={{fontSize:100}}/>
                       </CardHeader>
                       <CardBody>

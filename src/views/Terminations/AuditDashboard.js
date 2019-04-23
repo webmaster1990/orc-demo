@@ -3,26 +3,29 @@ import {Button, Card, CardBody, Col, Row,} from "reactstrap";
 import { DatePicker } from 'antd';
 import auditDashboardData from '../../mockData/AuditDashboardData'
 import { Table,Tag } from 'antd';
-import moment from "moment";
 import { CSVLink } from "react-csv";
 
 const columns = [{
   title: 'Date',
-  dataIndex: 'CreateTimeStamp',
-  render: CreateTimeStamp =><div>{moment(CreateTimeStamp).format('MMMM Do YYYY h:mm:ss a')}</div>,
+  render: (record) =>{
+    return <span>{record.Message && record.Message.Time}</span>
+  }
 }, {
   title: 'User Id',
-  dataIndex: 'accountID'
+  dataIndex: 'AuditID'
 }, {
   title: 'Application',
-  dataIndex: 'Application'
+  render: (record) => {
+    return <span>{record.Message && record.Message.App }</span>
+  }
 }, {
   title: 'Event Description',
-  dataIndex: 'eventDescription'
+  render: (record) => {
+    return <span>{record.Message && record.Message.EventDesc }</span>
+  }
 },{
   title: 'status',
-  dataIndex: 'status',
-  render: status =><div><Tag color={status === "Success" ? 'green' : 'volcano'}>{status}</Tag></div>
+  render: status =><div><Tag color={status.Message && status.Message.Status === "success" ? 'green' : 'volcano'}>{status.Message && status.Message.Status}</Tag></div>
 }, ];
  const headers = [
   { label: "Application", key: "Application" },
@@ -58,7 +61,7 @@ class AuditDashboard extends Component{
     })
     if(selectDate && selectDate.length > 0){
       this.setState({
-        auditDashboardData: auditDashboardData.auditData
+        auditDashboardData: auditDashboardData.Message
       })
     }
   }
