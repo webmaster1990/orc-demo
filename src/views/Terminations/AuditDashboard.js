@@ -43,6 +43,8 @@ class AuditDashboard extends Component{
     super(props);
     this.state = {
       selectDate: [],
+      startDate: null,
+      endDate: null,
       auditDashboardData: [],
       selectDateRange: false,
     };
@@ -68,14 +70,27 @@ class AuditDashboard extends Component{
 
   onClear = () =>{
     this.setState({
-      selectDateRange:false,
+      selectDateRange: false,
       auditDashboardData: "",
     })
+  }
+  getCSVData = () => {
+    const { auditDashboardData = [] } = this.state;
+    return auditDashboardData.map(item => {
+      return {
+        Application: item.AuditID,
+        CreateTimeStamp: item.Message && item.Message.Time,
+        accountID: item.Message && item.Message.accountID,
+        eventDescription: item.Message && item.Message.EventDesc,
+        eventMessage: item.Message && item.Message.EventMessage,
+        operation: item.Message && item.Message.Operation,
+        status: item.Message && item.Message.Status,
+      };
+    });
   }
 
   render() {
     const { auditDashboardData, selectDateRange } = this.state
-    console.log("===========auditDashboardData=========>",auditDashboardData)
     return(
       <div className="animated fadeIn">
         <Row>
@@ -85,7 +100,7 @@ class AuditDashboard extends Component{
                 <Row>
                   <Col sm="12" xs="12" md="6">
                     <h5>Select Date Range</h5>
-                    <RangePicker onChange={this.onChange}/>
+                    <RangePicker  onChange={this.onChange}/>
                   </Col>
                 </Row>
                 <Row className="mt-2">
@@ -102,8 +117,8 @@ class AuditDashboard extends Component{
                         <div>
                           <div className="text-right mb-3">
                             <Button type="button" color="primary" className="btn-sm">Refresh   <i className="fa fa-refresh"/></Button>
-                            <CSVLink data={auditDashboardData} headers={headers}   filename={"audit.csv"}>
-                              <Button type="button" color="primary" className="btn-sm ml-2">Download CSV   <i className="fa fa-refresh"/></Button>
+                            <CSVLink data={this.getCSVData()} headers={headers} filename={"audit.csv"}>
+                              <Button type="button" color="primary" className="btn-sm ml-2">Download CSV <i className="fa fa-refresh"/></Button>
                             </CSVLink>
                           </div>
                           <Table columns={columns} size={"small"}  scroll={{ x: 768 }} dataSource={auditDashboardData}/>
