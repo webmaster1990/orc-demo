@@ -106,7 +106,7 @@ class AuditDashboard extends Component{
                               <Button type="button" color="primary" className="btn-sm ml-2">Download CSV   <i className="fa fa-refresh"/></Button>
                             </CSVLink>
                           </div>
-                          <Table columns={columns} size={"small"} dataSource={auditDashboardData}/>
+                          <Table columns={columns} size={"small"}  scroll={{ x: 768 }} dataSource={auditDashboardData}/>
                         </div> : null
                     }
                   </Col>
