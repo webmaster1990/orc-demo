@@ -1,9 +1,10 @@
 import React,{Component} from 'react';
 import { Button, Card, CardBody, Col, Row,} from "reactstrap";
 import { Table } from 'antd';
-import RetryTransnationalData from "../../mockData/RetryTransnationalData"
 import moment from "moment";
 import { CSVLink } from "react-csv";
+import {ApiService} from "../../Services/ApiService";
+import { PropagateLoader } from 'react-spinners';
 
 const columns = [
   { title: 'Date',
@@ -35,14 +36,27 @@ const headers = [
 ];
 
 class Failures extends Component{
+  _dataContext = new ApiService();
   state = {
-    retryTransnationalData: []
+    retryTransnationalData: [],
+    failuresLoading: false,
   }
 
   componentDidMount() {
+    this.getFailures()
+  }
+
+  getFailures = async() =>{
     this.setState({
-      retryTransnationalData: RetryTransnationalData.details || []
+      failuresLoading: true,
     })
+      const failuresData = await this._dataContext.getFailures();
+      console.log("==========failuresData========>",failuresData)
+      this.setState({
+        failuresLoading: false,
+        retryTransnationalData: failuresData && failuresData.details || [],
+      })
+
   }
 
   getCSVData = () => {
@@ -57,44 +71,51 @@ class Failures extends Component{
   }
 
   render() {
-    const { retryTransnationalData } = this.state
+    const { retryTransnationalData,failuresLoading } = this.state
     return(
       <div className="animated fadeIn">
         <Row>
           <Col xs="12" sm="12" lg="12">
             <Card>
               <CardBody>
-                <Row>
-                  <Col sm="12" xs="12" md="12">
-                    <div className="text-right mb-3">
-                      <Button type="button" color="primary" className="btn-sm">Refresh   <i className="fa fa-refresh"/></Button>
-                      <CSVLink data={this.getCSVData()} headers={headers}>
-                        <Button type="button" color="primary" className="btn-sm ml-2">Download CSV   <i className="fa fa-refresh"/></Button>
-                      </CSVLink>
+                {
+                  failuresLoading ? <div className="loading">{' '}<PropagateLoader color={'#165d93'}/></div> :
+                    <div>
+                      <Row>
+                        <Col sm="12" xs="12" md="12">
+                          <div className="text-right mb-3">
+                            <Button type="button" color="primary" className="btn-sm">Refresh <i
+                              className="fa fa-refresh"/></Button>
+                            <CSVLink data={this.getCSVData()} headers={headers}>
+                              <Button type="button" color="primary" className="btn-sm ml-2">Download CSV <i
+                                className="fa fa-refresh"/></Button>
+                            </CSVLink>
+                          </div>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col sm="12" xs="12" md="12" className="mt-3">
+                          <Table
+                            columns={columns}
+                            size="small"
+                            scroll={{x: 768}}
+                            expandedRowRender={record => {
+                              return record.updateOn.map((data) => {
+                                return (
+                                  <div>
+                                    <p><b>Triggered On : </b>{data.triggeredOn}</p>
+                                    <p><b>Reason : </b>{data.reason}</p>
+                                    <hr className="hr"/>
+                                  </div>
+                                )
+                              })
+                            }}
+                            dataSource={retryTransnationalData}
+                          />
+                        </Col>
+                      </Row>
                     </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="12" xs="12" md="12" className="mt-3">
-                    <Table
-                      columns={columns}
-                      size="small"
-                      scroll={{ x: 768 }}
-                      expandedRowRender={record => {
-                        return  record.updateOn.map((data) => {
-                          return (
-                            <div>
-                              <p><b>Triggered On : </b>{data.triggeredOn}</p>
-                              <p><b>Reason : </b>{data.reason}</p>
-                              <hr className="hr"/>
-                            </div>
-                          )
-                        })
-                      }}
-                      dataSource={retryTransnationalData}
-                    />
-                  </Col>
-                </Row>
+                }
               </CardBody>
             </Card>
           </Col>

@@ -4,7 +4,7 @@ import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, I
 
 class Login extends Component {
   onLogin = () =>{
-    const data = 'abcd'
+    const data = 'fhsmrfrrscavdsaeaeifmdadadmvassaewwqqwldcqor'
     localStorage.setItem('access_token',JSON.stringify(data))
     this.props.history.push('/home')
   }

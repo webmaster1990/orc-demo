@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'http://129.213.127.79:14000/iam/governance' : '/iam/governance',
+  baseURL: 'http://132.145.170.253:8080',
 });
 
 // Add a 401 response0
-axiosInstance.interceptors.response.use((response) => (response), error => {
+/*axiosInstance.interceptors.response.use((response) => (response), error => {
   if (401 === (error.response && error.response.status)) {
     localStorage.removeItem('access_token');
     window.location.href =  '/login';
@@ -13,7 +13,7 @@ axiosInstance.interceptors.response.use((response) => (response), error => {
   } else {
     return Promise.reject(error);
   }
-});
+});*/
 
 export class ApiService {
 
@@ -23,7 +23,7 @@ export class ApiService {
     const config = {
       headers: {
         "content-type": "application/json",
-        'authorization': `Bearer ${this.getAuthToken()}`,
+        'authorization': `${this.getAuthToken()}`,
         ...(headers || {})
       }
     };
@@ -41,7 +41,7 @@ export class ApiService {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `Bearer ${this.getAuthToken()}`,
+        'authorization': `${this.getAuthToken()}`,
         ...(headers || {})
       }
     };
@@ -64,11 +64,11 @@ export class ApiService {
   }
 
   async getAuditData() {
-    return this.getData('AuditService/jersey/api/v1/allMessage?topic=User_Termination_processV1');
+    return this.getData('/AuditService/jersey/api/v1/allMessage?topic=User_Termination_processV1');
   }
-  
+
   async getFailures() {
-    return this.getData('/AuditService/jersey/api/v1/allMessage?topic=Retry_failed_transaction_processV1');
+    return this.getData('/scimretry/jersey/retrytask/manual');
   }
-  
+
 }

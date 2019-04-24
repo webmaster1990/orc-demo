@@ -1,9 +1,11 @@
 import React,{Component} from 'react';
 import {Button, Card, CardBody, Col, Row,} from "reactstrap";
 import { DatePicker } from 'antd';
-import auditDashboardData from '../../mockData/AuditDashboardData'
 import { Table,Tag } from 'antd';
 import { CSVLink } from "react-csv";
+import {ApiService} from "../../Services/ApiService";
+import { PropagateLoader } from 'react-spinners';
+
 
 const columns = [{
   title: 'Date',
@@ -39,6 +41,7 @@ const columns = [{
 const {  RangePicker } = DatePicker;
 
 class AuditDashboard extends Component{
+  _dataContext = new ApiService();
   constructor(props) {
     super(props);
     this.state = {
@@ -47,6 +50,7 @@ class AuditDashboard extends Component{
       endDate: null,
       auditDashboardData: [],
       selectDateRange: false,
+      auditLoading: false,
     };
   }
 
@@ -56,14 +60,19 @@ class AuditDashboard extends Component{
     })
   }
 
-  onSubmit = () =>{
+  onSubmit = async() =>{
     const { selectDate } = this.state
     this.setState({
       selectDateRange: true
     })
     if(selectDate && selectDate.length > 0){
       this.setState({
-        auditDashboardData: auditDashboardData.Message
+        auditLoading: true,
+      })
+      const auditData = await this._dataContext.getAuditData();
+      this.setState({
+        auditLoading: false,
+        auditDashboardData: auditData && auditData.Message || [],
       })
     }
   }
@@ -90,7 +99,7 @@ class AuditDashboard extends Component{
   }
 
   render() {
-    const { auditDashboardData, selectDateRange } = this.state
+    const { auditDashboardData, selectDateRange, auditLoading } = this.state
     return(
       <div className="animated fadeIn">
         <Row>
@@ -110,22 +119,26 @@ class AuditDashboard extends Component{
                   </Col>
                 </Row>
                 <hr className="hr"/>
-                <Row>
-                  <Col sm="12" xs="12" md="12">
-                    {
-                      selectDateRange && auditDashboardData.length > 0 ?
-                        <div>
-                          <div className="text-right mb-3">
-                            <Button type="button" color="primary" className="btn-sm">Refresh   <i className="fa fa-refresh"/></Button>
-                            <CSVLink data={this.getCSVData()} headers={headers} filename={"audit.csv"}>
-                              <Button type="button" color="primary" className="btn-sm ml-2">Download CSV <i className="fa fa-refresh"/></Button>
-                            </CSVLink>
-                          </div>
-                          <Table columns={columns} size={"small"}  scroll={{ x: 768 }} dataSource={auditDashboardData}/>
-                        </div> : null
-                    }
-                  </Col>
-                </Row>
+                {
+                  auditLoading ?  <div className="loading">{' '}<PropagateLoader color={'#165d93'} /></div> :
+                    <Row>
+                      <Col sm="12" xs="12" md="12">
+                        {
+                          selectDateRange && auditDashboardData.length > 0 ?
+                            <div>
+                              <div className="text-right mb-3">
+                                <Button type="button" color="primary" className="btn-sm">Refresh   <i className="fa fa-refresh"/></Button>
+                                <CSVLink data={this.getCSVData()} headers={headers} filename={"audit.csv"}>
+                                  <Button type="button" color="primary" className="btn-sm ml-2">Download CSV <i className="fa fa-refresh"/></Button>
+                                </CSVLink>
+                              </div>
+                              <Table columns={columns} size={"small"}  scroll={{ x: 768 }} dataSource={auditDashboardData}/>
+                            </div> : null
+                        }
+                      </Col>
+                    </Row>
+                }
+
               </CardBody>
             </Card>
           </Col>
