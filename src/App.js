@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
 import { createBrowserHistory } from 'history'
 import { createStore } from 'redux'
@@ -63,7 +63,7 @@ class App extends Component {
   render() {
     return (
      <Provider store={store}>
-        <Router history={history}>
+        <BrowserRouter history={history} basename={'/sysadmin'}>
             <Switch>
               <RedirectRoute exact path="/login" name="Login Page" component={Login} />
               <RedirectRoute exact path="/register" name="Register Page" component={Register} />
@@ -71,7 +71,7 @@ class App extends Component {
               <Route exact path="/500" name="Page 500" component={Page500} />
               <PrivateRoute path="/" name="Home" component={DefaultLayout} />
             </Switch>
-        </Router>
+        </BrowserRouter>
      </Provider>
     );
   }
