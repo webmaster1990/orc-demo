@@ -13,7 +13,17 @@ const columns = [
   },
   { title: 'User ID',
     render: (record) => {
-      return <span>{record.userObject && record.userObject.UserID}</span>
+      return <span>{record.userObject && record.userObject.EmployeeID}</span>
+    }
+  },
+  { title: 'First Name',
+    render: (record) => {
+      return <span>{record.userObject && record.userObject.Firstname}</span>
+    }
+  },
+  { title: 'Last Name',
+    render: (record) => {
+      return <span>{record.userObject && record.userObject.Lastname}</span>
     }
   },
   { title: 'Application ID',
@@ -32,7 +42,9 @@ const columns = [
 const headers = [
   { label: "Date", key: "createOn" },
   { label: "User ID", key: "userId" },
-  { label: "Application ID", key: "applicationID" }
+  { label: "First Name", key: "firstName" },
+  { label: "Last Name", key: "lastName" },
+  { label: "Application ID", key: "applicationID" },
 ];
 
 class Failures extends Component{
@@ -47,14 +59,13 @@ class Failures extends Component{
   }
 
   getFailures = async() =>{
-    this.setState({
-      failuresLoading: true,
-    })
+      this.setState({
+        failuresLoading: true,
+      });
       const failuresData = await this._dataContext.getFailures();
-      console.log("==========failuresData========>",failuresData)
       this.setState({
         failuresLoading: false,
-        retryTransnationalData: failuresData && failuresData.details || [],
+        retryTransnationalData: (failuresData && failuresData.details) || [],
       })
 
   }
@@ -64,8 +75,10 @@ class Failures extends Component{
     return retryTransnationalData.map(item => {
       return {
         createOn: item.createOn,
-        userId: item.userObject && item.userObject.UserID,
-        applicationID: item.applicationID
+        userId: item.userObject && item.userObject.EmployeeID,
+        applicationID: item.applicationID,
+        firstName: item.userObject && item.userObject.Firstname,
+        lastName: item.userObject && item.userObject.Lastname,
       };
     });
   }
@@ -84,9 +97,9 @@ class Failures extends Component{
                       <Row>
                         <Col sm="12" xs="12" md="12">
                           <div className="text-right mb-3">
-                            <Button type="button" color="primary" className="btn-sm">Refresh <i
+                            <Button type="button" color="primary" className="btn-sm" onClick={this.getFailures}>Refresh <i
                               className="fa fa-refresh"/></Button>
-                            <CSVLink data={this.getCSVData()} headers={headers}>
+                            <CSVLink data={this.getCSVData()} headers={headers} filename={"failures.csv"}>
                               <Button type="button" color="primary" className="btn-sm ml-2">Download CSV <i
                                 className="fa fa-refresh"/></Button>
                             </CSVLink>

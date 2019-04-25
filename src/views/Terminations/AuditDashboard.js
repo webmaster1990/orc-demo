@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {Button, Card, CardBody, Col, Row,} from "reactstrap";
-import { DatePicker } from 'antd';
-import { Table,Tag } from 'antd';
+import { DatePicker, Table, Tag } from 'antd';
+import moment from 'moment';
 import { CSVLink } from "react-csv";
 import {ApiService} from "../../Services/ApiService";
 import { PropagateLoader } from 'react-spinners';
@@ -10,11 +10,18 @@ import { PropagateLoader } from 'react-spinners';
 const columns = [{
   title: 'Date',
   render: (record) =>{
-    return <span>{record.Message && record.Message.Time}</span>
+    return <span>{record.Message && record.Message.Time.substr(0,19)}</span>
   }
 }, {
+  title: 'Audit ID',
+  render: (record) => {
+    return <span>{record.AuditID}</span>
+  }
+},{
   title: 'User Id',
-  dataIndex: 'AuditID'
+  render: (record) => {
+    return <span>{(record.Message && record.Message.accountID) || '-' }</span>
+  }
 }, {
   title: 'Application',
   render: (record) => {
@@ -30,6 +37,7 @@ const columns = [{
   render: status =><div><Tag color={status.Message && status.Message.Status === "success" ? 'green' : 'volcano'}>{status.Message && status.Message.Status}</Tag></div>
 }, ];
  const headers = [
+  { label: "Audit ID", key: "AuditID" },
   { label: "Application", key: "Application" },
   { label: "Create Time Stamp", key: "CreateTimeStamp" },
   { label: "Account ID", key: "accountID" },
@@ -52,11 +60,12 @@ class AuditDashboard extends Component{
       selectDateRange: false,
       auditLoading: false,
     };
+    console.log(moment("12/04/2019"));
   }
 
    onChange = (date, dateString) =>{
     this.setState({
-      selectDate:dateString
+      selectDate: dateString
     })
   }
 
@@ -69,10 +78,20 @@ class AuditDashboard extends Component{
       this.setState({
         auditLoading: true,
       })
-      const auditData = await this._dataContext.getAuditData();
+      let auditData = await this._dataContext.getAuditData();
+      if (auditData && auditData.Message) {
+        auditData = auditData.Message.sort((x, y) => {
+          if (x.Message && y.Message && x.Message.Time && y.Message.Time) {
+            return moment.utc(y.Message.Time.substr(0,19), 'DD/MM/YYYY hh:mm:ss').diff(moment.utc(x.Message.Time.substr(0,19), 'DD/MM/YYYY hh:mm:ss'))
+          }
+          return -1;
+        });
+      } else {
+        auditData = []
+      }
       this.setState({
         auditLoading: false,
-        auditDashboardData: auditData && auditData.Message || [],
+        auditDashboardData: auditData || [],
       })
     }
   }
@@ -87,8 +106,9 @@ class AuditDashboard extends Component{
     const { auditDashboardData = [] } = this.state;
     return auditDashboardData.map(item => {
       return {
-        Application: item.AuditID,
-        CreateTimeStamp: item.Message && item.Message.Time,
+        AuditID: item.AuditID,
+        Application: item.Message && item.Message.App,
+        CreateTimeStamp: item.Message && item.Message.Time.substr(0,19),
         accountID: item.Message && item.Message.accountID,
         eventDescription: item.Message && item.Message.EventDesc,
         eventMessage: item.Message && item.Message.EventMessage,
@@ -124,10 +144,10 @@ class AuditDashboard extends Component{
                     <Row>
                       <Col sm="12" xs="12" md="12">
                         {
-                          selectDateRange && auditDashboardData.length > 0 ?
+                          selectDateRange ?
                             <div>
                               <div className="text-right mb-3">
-                                <Button type="button" color="primary" className="btn-sm">Refresh   <i className="fa fa-refresh"/></Button>
+                                <Button type="button" color="primary" className="btn-sm" onClick={this.onSubmit}>Refresh   <i className="fa fa-refresh"/></Button>
                                 <CSVLink data={this.getCSVData()} headers={headers} filename={"audit.csv"}>
                                   <Button type="button" color="primary" className="btn-sm ml-2">Download CSV <i className="fa fa-refresh"/></Button>
                                 </CSVLink>
