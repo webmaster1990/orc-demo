@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://132.145.170.253:8080',
+  baseURL: process.env.NODE_ENV === 'production' ? 'http://132.145.170.253:8080' : '/',
 });
 
 // Add a 401 response0
@@ -64,7 +64,8 @@ export class ApiService {
   }
 
   async getAuditData() {
-    return this.getData('/AuditService/jersey/api/v1/allMessage?topic=User_Termination_processV1');
+    const topic = localStorage.getItem('topic') || 'User_Termination_processV1';
+    return this.getData(`/AuditService/jersey/api/v1/allMessage?topic=${topic}`);
   }
 
   async getFailures() {

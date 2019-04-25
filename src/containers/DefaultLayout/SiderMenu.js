@@ -40,6 +40,11 @@ class SiderMenu extends React.Component {
                   <span>Failures</span>
                 </Link>
               </Menu.Item>
+              <Menu.Item key="settings">
+                <Link to='/settings'>
+                  <span>Settings</span>
+                </Link>
+              </Menu.Item>
             </SubMenu>
           </Menu>
         </div>
