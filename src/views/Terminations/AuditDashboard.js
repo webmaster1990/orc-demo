@@ -1,41 +1,11 @@
 import React,{Component} from 'react';
 import {Button, Card, CardBody, Col, Row,} from "reactstrap";
-import { DatePicker, Table, Tag } from 'antd';
+import { DatePicker, Table, Tag, Input } from 'antd';
 import moment from 'moment';
 import { CSVLink } from "react-csv";
 import {ApiService} from "../../Services/ApiService";
 import { PropagateLoader } from 'react-spinners';
 
-
-const columns = [{
-  title: 'Date',
-  render: (record) =>{
-    return <span>{record.Message && record.Message.Time.substr(0,19)}</span>
-  }
-}, {
-  title: 'Audit ID',
-  render: (record) => {
-    return <span>{record.AuditID}</span>
-  }
-},{
-  title: 'User Id',
-  render: (record) => {
-    return <span>{(record.Message && record.Message.accountID) || '-' }</span>
-  }
-}, {
-  title: 'Application',
-  render: (record) => {
-    return <span>{record.Message && record.Message.App }</span>
-  }
-}, {
-  title: 'Event Description',
-  render: (record) => {
-    return <span>{record.Message && record.Message.EventDesc }</span>
-  }
-},{
-  title: 'status',
-  render: status =><div><Tag color={status.Message && status.Message.Status === "success" ? 'green' : 'volcano'}>{status.Message && status.Message.Status}</Tag></div>
-}, ];
  const headers = [
   { label: "Audit ID", key: "AuditID" },
   { label: "Application", key: "Application" },
@@ -50,23 +20,39 @@ const {  RangePicker } = DatePicker;
 
 class AuditDashboard extends Component{
   _dataContext = new ApiService();
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectDate: [],
-      startDate: null,
-      endDate: null,
-      auditDashboardData: [],
-      selectDateRange: false,
-      auditLoading: false,
-    };
-    console.log(moment("12/04/2019"));
-  }
+  
+  state = {
+    selectDate: [],
+    startDate: null,
+    endDate: null,
+    auditDashboardData: [],
+    auditDashboardDataBack: [],
+    selectDateRange: false,
+    auditLoading: false,
+    filterUserId: ''
+  };
 
-   onChange = (date, dateString) =>{
+  onChange = (date, dateString) =>{
     this.setState({
       selectDate: dateString
     })
+  }
+  
+  onFilterInputChange = (e) => {
+    this.setState({
+      filterUserId: e.target.value
+    });
+  }
+  
+  onFilter = () => {
+    const {auditDashboardDataBack, filterUserId} = this.state;
+    const auditDashboardData = auditDashboardDataBack.filter(record => {
+      return (record.Message && record.Message.accountID && record.Message.accountID.toLowerCase().includes(filterUserId));
+    })
+    this.setState({
+      auditDashboardData,
+    });
+    
   }
 
   onSubmit = async() =>{
@@ -92,6 +78,8 @@ class AuditDashboard extends Component{
       this.setState({
         auditLoading: false,
         auditDashboardData: auditData || [],
+        auditDashboardDataBack: auditData || [],
+        filterUserId: ''
       })
     }
   }
@@ -102,6 +90,7 @@ class AuditDashboard extends Component{
       auditDashboardData: "",
     })
   }
+  
   getCSVData = () => {
     const { auditDashboardData = [] } = this.state;
     return auditDashboardData.map(item => {
@@ -120,6 +109,49 @@ class AuditDashboard extends Component{
 
   render() {
     const { auditDashboardData, selectDateRange, auditLoading } = this.state
+    const columns = [{
+      title: 'Date',
+      render: (record) =>{
+        return <span>{record.Message && record.Message.Time.substr(0,19)}</span>
+      },
+      width: 200
+    }, {
+      title: 'Audit ID',
+      render: (record) => {
+        return <span>{record.AuditID}</span>
+      },
+      width: 150
+    },{
+      title: 'User Id',
+      render: (record) => {
+        return <span>{(record.Message && record.Message.accountID) || '-' }</span>
+      },
+      width: 150,
+      filterDropdown: (
+        <div>
+          <Input
+            placeholder='User ID'
+            value={this.state.filterUserId}
+            onChange={this.onFilterInputChange}
+            style={{width: 130}}
+          />
+          <Button type="primary" size="sm" className="ml-1" onClick={this.onFilter}>Search</Button>
+        </div>
+      ),
+    }, {
+      title: 'Application',
+      render: (record) => {
+        return <span>{record.Message && record.Message.App }</span>
+      }
+    }, {
+      title: 'Event Description',
+      render: (record) => {
+        return <span>{record.Message && record.Message.EventDesc }</span>
+      }
+    },{
+      title: 'status',
+      render: status =><div><Tag color={status.Message && status.Message.Status === "success" ? 'green' : 'volcano'}>{status.Message && status.Message.Status}</Tag></div>
+    }, ];
     return(
       <div className="animated fadeIn">
         <Row>
@@ -152,7 +184,7 @@ class AuditDashboard extends Component{
                                   <Button type="button" color="primary" className="btn-sm ml-2">Download CSV <i className="fa fa-refresh"/></Button>
                                 </CSVLink>
                               </div>
-                              <Table columns={columns} size={"small"}  scroll={{ x: 768 }} dataSource={auditDashboardData}/>
+                              <Table columns={columns} size={"small"} dataSource={auditDashboardData}/>
                             </div> : null
                         }
                       </Col>

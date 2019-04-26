@@ -1,57 +1,26 @@
 import React,{Component} from 'react';
 import { Button, Card, CardBody, Col, Row,} from "reactstrap";
-import { Table } from 'antd';
-import moment from "moment";
+import { Table, Input } from 'antd';
 import { CSVLink } from "react-csv";
 import {ApiService} from "../../Services/ApiService";
 import { PropagateLoader } from 'react-spinners';
 
-const columns = [
-  { title: 'Date',
-    dataIndex: 'createOn',
-    render: createOn =><span>{moment(createOn).format('MMMM Do YYYY h:mm:ss a')}</span>,
-  },
-  { title: 'User ID',
-    render: (record) => {
-      return <span>{record.userObject && record.userObject.EmployeeID}</span>
-    }
-  },
-  { title: 'First Name',
-    render: (record) => {
-      return <span>{record.userObject && record.userObject.Firstname}</span>
-    }
-  },
-  { title: 'Last Name',
-    render: (record) => {
-      return <span>{record.userObject && record.userObject.Lastname}</span>
-    }
-  },
-  { title: 'Application ID',
-    dataIndex: 'applicationID'
-  },
-  { title: 'Last retry',
-    dataIndex: 'triggeredOn',
-    render: triggeredOn =><span>{moment(triggeredOn).format('MMMM Do YYYY h:mm:ss a')}</span>,
-  },
-  { title: 'Retry',
-    dataIndex: 'Retry',
-    render: () =><span><i className="fa fa-refresh fa-lg"/></span>,
-  },
-];
-
 const headers = [
-  { label: "Date", key: "createOn" },
-  { label: "User ID", key: "userId" },
-  { label: "First Name", key: "firstName" },
-  { label: "Last Name", key: "lastName" },
-  { label: "Application ID", key: "applicationID" },
+  { label: 'Date', key: 'createOn' },
+  { label: 'User ID', key: 'userId' },
+  { label: 'First Name', key: 'firstName' },
+  { label: 'Last Name', key: 'lastName' },
+  { label: 'Application ID', key: 'applicationID' },
+  { label: 'Last Retry', key: 'lastRetry'},
 ];
 
 class Failures extends Component{
   _dataContext = new ApiService();
   state = {
     retryTransnationalData: [],
+    retryTransnationalDataBack: [],
     failuresLoading: false,
+    filterUserId: ''
   }
 
   componentDidMount() {
@@ -66,8 +35,27 @@ class Failures extends Component{
       this.setState({
         failuresLoading: false,
         retryTransnationalData: (failuresData && failuresData.details) || [],
+        retryTransnationalDataBack: (failuresData && failuresData.details) || [],
+        filterUserId: ''
       })
 
+  }
+  
+  onFilterInputChange = (e) => {
+    this.setState({
+      filterUserId: e.target.value
+    });
+  }
+  
+  onFilter = () => {
+    const {retryTransnationalDataBack, filterUserId} = this.state;
+    const retryTransnationalData = retryTransnationalDataBack.filter(record => {
+      return (record.userObject && record.userObject.EmployeeID && record.userObject.EmployeeID.toLowerCase().includes(filterUserId));
+    })
+    this.setState({
+      retryTransnationalData,
+    });
+    
   }
 
   getCSVData = () => {
@@ -79,12 +67,55 @@ class Failures extends Component{
         applicationID: item.applicationID,
         firstName: item.userObject && item.userObject.Firstname,
         lastName: item.userObject && item.userObject.Lastname,
+        lastRetry: (item.updateOn && (item.updateOn[item.updateOn.length - 1] || {}).triggeredOn.substr(0, 19)) || '-'
       };
     });
   }
 
   render() {
-    const { retryTransnationalData,failuresLoading } = this.state
+    const { retryTransnationalData,failuresLoading } = this.state;
+    const columns = [
+      { title: 'Date',
+        dataIndex: 'createOn',
+        render: createOn =><span>{(createOn && createOn.substr(0, 19)) || '-'}</span>,
+      },
+      { title: 'User ID',
+        render: (record) => {
+          return <span>{record.userObject && record.userObject.EmployeeID}</span>
+        },
+        filterDropdown: (
+          <div>
+            <Input
+              placeholder='User ID'
+              value={this.state.filterUserId}
+              onChange={this.onFilterInputChange}
+              style={{width: 130}}
+            />
+            <Button type="primary" size="sm" className="ml-1" onClick={this.onFilter}>Search</Button>
+          </div>
+        ),
+      },
+      { title: 'First Name',
+        render: (record) => {
+          return <span>{record.userObject && record.userObject.Firstname}</span>
+        }
+      },
+      { title: 'Last Name',
+        render: (record) => {
+          return <span>{record.userObject && record.userObject.Lastname}</span>
+        }
+      },
+      { title: 'Application ID',
+        dataIndex: 'applicationID'
+      },
+      { title: 'Last retry',
+        render: record =><span>{(record.updateOn && (record.updateOn[record.updateOn.length - 1] || {}).triggeredOn.substr(0, 19)) || '-'}</span>,
+      },
+      { title: 'Retry',
+        dataIndex: 'Retry',
+        render: () =><span><i className="fa fa-refresh fa-lg"/></span>,
+      },
+    ];
     return(
       <div className="animated fadeIn">
         <Row>
@@ -111,12 +142,11 @@ class Failures extends Component{
                           <Table
                             columns={columns}
                             size="small"
-                            scroll={{x: 768}}
                             expandedRowRender={record => {
                               return record.updateOn.map((data) => {
                                 return (
                                   <div>
-                                    <p><b>Triggered On : </b>{data.triggeredOn}</p>
+                                    <p><b>Triggered On : </b>{data.triggeredOn.substr(0, 19)}</p>
                                     <p><b>Reason : </b>{data.reason}</p>
                                     <hr className="hr"/>
                                   </div>

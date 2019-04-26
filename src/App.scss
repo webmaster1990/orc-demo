@@ -196,10 +196,17 @@ body {
   cursor: pointer;
 }
 
+.ant-table-small>.ant-table-content>.ant-table-body>table>.ant-table-thead>tr>th {
+  background-color: #0000000f !important;
+}
+
 @media (max-width: 992px) {
   .main {
     .container-fluid {
       padding: 0 15px;
+    }
+    .ant-table-body {
+      overflow-x: auto !important;
     }
   }
 }
