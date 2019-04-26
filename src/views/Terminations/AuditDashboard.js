@@ -63,22 +63,30 @@ class AuditDashboard extends Component{
     if(selectDate && selectDate.length > 0){
       this.setState({
         auditLoading: true,
-      })
-      let auditData = await this._dataContext.getAuditData();
+      });
+      
+      let auditData = await this._dataContext.getAuditDataUserTermination();
+      let auditData2 = await this._dataContext.getAuditDataRetryFailed();
+      let finalData = [];
       if (auditData && auditData.Message) {
-        auditData = auditData.Message.sort((x, y) => {
+        finalData = auditData.Message || []
+      }
+      if (auditData2 && auditData2.Message) {
+        finalData = finalData.concat(auditData2.Message || [])
+      }
+      debugger;
+      if (finalData.length) {
+        finalData = finalData.sort((x, y) => {
           if (x.Message && y.Message && x.Message.Time && y.Message.Time) {
             return moment.utc(y.Message.Time.substr(0,19), 'DD/MM/YYYY hh:mm:ss').diff(moment.utc(x.Message.Time.substr(0,19), 'DD/MM/YYYY hh:mm:ss'))
           }
           return -1;
         });
-      } else {
-        auditData = []
       }
       this.setState({
         auditLoading: false,
-        auditDashboardData: auditData || [],
-        auditDashboardDataBack: auditData || [],
+        auditDashboardData: finalData || [],
+        auditDashboardDataBack: finalData || [],
         filterUserId: ''
       })
     }

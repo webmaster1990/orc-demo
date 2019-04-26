@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'http://132.145.170.253:8080' : '/',
+  baseURL: '',
 });
 
 // Add a 401 response0
@@ -30,6 +30,7 @@ export class ApiService {
     if (cancelToken && cancelToken.token) {
       config.cancelToken = cancelToken.token;
     }
+    
     let data = '';
     const response = await axiosInstance.get(url, config).catch((err) => {
       data = {error: err};
@@ -63,13 +64,18 @@ export class ApiService {
     return response.data;
   }
 
-  async getAuditData() {
-    const topic = localStorage.getItem('topic') || 'User_Termination_processV1';
-    return this.getData(`/AuditService/jersey/api/v1/allMessage?topic=${topic}`);
+  async getAuditDataUserTermination() {
+    const topic = localStorage.getItem('topic1') || 'User_Termination_processV1';
+    return this.getData(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/AuditService/jersey/api/v1/allMessage?topic=${topic}`);
+  }
+  
+  async getAuditDataRetryFailed() {
+    const topic = localStorage.getItem('topic2') || 'Retry_failed_transaction_processV1';
+    return this.getData(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/AuditService/jersey/api/v1/allMessage?topic=${topic}`);
   }
 
   async getFailures() {
-    return this.getData('/scimretry/jersey/retrytask/manual');
+    return this.getData(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/scimretry/jersey/retrytask/manual`);
   }
 
 }
