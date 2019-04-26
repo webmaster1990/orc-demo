@@ -10,7 +10,7 @@ const headers = [
   { label: 'User ID', key: 'userId' },
   { label: 'First Name', key: 'firstName' },
   { label: 'Last Name', key: 'lastName' },
-  { label: 'Application ID', key: 'applicationID' },
+  { label: 'Application ID', key: 'application' },
   { label: 'Last Retry', key: 'lastRetry'},
 ];
 
@@ -64,7 +64,7 @@ class Failures extends Component{
       return {
         createOn: item.createOn,
         userId: item.userObject && item.userObject.EmployeeID,
-        applicationID: item.applicationID,
+        application: item.applicationName,
         firstName: item.userObject && item.userObject.Firstname,
         lastName: item.userObject && item.userObject.Lastname,
         lastRetry: (item.updateOn && (item.updateOn[item.updateOn.length - 1] || {}).triggeredOn.substr(0, 19)) || '-'
@@ -105,8 +105,8 @@ class Failures extends Component{
           return <span>{record.userObject && record.userObject.Lastname}</span>
         }
       },
-      { title: 'Application ID',
-        dataIndex: 'applicationID'
+      { title: 'Application',
+        dataIndex: 'applicationName'
       },
       { title: 'Last retry',
         render: record =><span>{(record.updateOn && (record.updateOn[record.updateOn.length - 1] || {}).triggeredOn.substr(0, 19)) || '-'}</span>,
