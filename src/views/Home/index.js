@@ -19,9 +19,9 @@ class Home extends Component{
   failures = () =>{
     this.props.history.push("/failures");
   }
-  
-  failures = () =>{
-    this.props.history.push("/failures");
+
+  outOfBounds = () =>{
+    this.props.history.push("/out-of-bands");
   }
 
   auditDashboardModalOpen = () => {
@@ -69,7 +69,7 @@ class Home extends Component{
                     </Card>
                   </Col>
                   <Col xs="12" sm="12" lg="3">
-                    <Card className="shadow-lg cursor-pointer" onClick={this.auditDashboardModalOpen}>
+                    <Card className="shadow-lg cursor-pointer" onClick={this.outOfBounds}>
                       <CardHeader className="bg-primary">
                         <i className="icon-user icons d-block text-center"  style={{fontSize:100}}/>
                       </CardHeader>

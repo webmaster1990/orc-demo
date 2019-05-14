@@ -30,7 +30,7 @@ export class ApiService {
     if (cancelToken && cancelToken.token) {
       config.cancelToken = cancelToken.token;
     }
-    
+
     let data = '';
     const response = await axiosInstance.get(url, config).catch((err) => {
       data = {error: err};
@@ -68,7 +68,7 @@ export class ApiService {
     const topic = localStorage.getItem('topic1') || 'User_Termination_processV1';
     return this.getData(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/AuditService/jersey/api/v1/allMessage?topic=${topic}`);
   }
-  
+
   async getAuditDataRetryFailed() {
     const topic = localStorage.getItem('topic2') || 'Retry_failed_transaction_processV1';
     return this.getData(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/AuditService/jersey/api/v1/allMessage?topic=${topic}`);
@@ -76,6 +76,38 @@ export class ApiService {
 
   async getFailures() {
     return this.getData(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/scimretry/jersey/retrytask/manual`);
+  }
+
+  async getOutOfbands() {
+    const config = {
+      headers: {
+        "content-type": "application/json",
+        'API_TOKEN' : 'IhteShoc5Yu91cN+z+Uyxp4H+pMhIGZk8fmwII5EkFmG5VpiVlOzwcL5rlqXRHppOpOCpqV6ntp97qTIAckCPg==',
+        'APPLICATION_ID': '286BSAHER'
+      }
+    };
+    let data = '';
+    const response = await axiosInstance.get('http://551101f6.ngrok.io/OOB-Service-1.0/getApprovalDetails', config).
+    catch((err) => {
+      data = {error: err};
+    });
+    return data || response.data;
+  }
+
+  async apporveOutBound(data) {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'API_TOKEN' : 'IhteShoc5Yu91cN+z+Uyxp4H+pMhIGZk8fmwII5EkFmG5VpiVlOzwcL5rlqXRHppOpOCpqV6ntp97qTIAckCPg==',
+        'APPLICATION_ID': '286BSAHER'
+      }
+    };
+    let resData = '';
+    const response = await axiosInstance.post('http://551101f6.ngrok.io/OOB-Service-1.0/postApprovalDetails',
+      data, config).catch((err) => {
+      resData = {error: err};
+    });
+    return resData || response.data;
   }
 
 }
