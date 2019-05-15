@@ -2,7 +2,8 @@ import React,{Component} from 'react';
 import { Card, CardBody, Col, Row,} from "reactstrap";
 import {ApiService} from "../../Services/ApiService";
 import { PropagateLoader } from 'react-spinners';
-import { Input, Table, Button } from 'antd'
+import { Input, Table, Button, message } from 'antd'
+const { TextArea } = Input;
 
 class OutOfBounds extends Component{
   _dataContext = new ApiService();
@@ -23,9 +24,8 @@ class OutOfBounds extends Component{
     let resData = await this._dataContext.getOutOfbands();
     const newState = {};
     if (resData || !resData.error) {
-      debugger;
       const data = Object.keys(resData).filter(x => {
-        return resData[x] === 'False'
+        return resData[x] === 'false'
       }).map(key => {
         return {
           approvalNO: key,
@@ -50,12 +50,25 @@ class OutOfBounds extends Component{
   }
 
   onApprove = async (record) => {
+    message.config({
+      top: 110,
+    });
+   if (!record.empId.trim()) {
+    return message.error('Please enter emp id.')
+   }
    const Payload =  {
      appr_nbr: record.approvalNO,
      eid: record.empId,
      cmnt:record.comments,
    };
-    await this._dataContext.apporveOutBound(Payload)
+    const data = await this._dataContext.apporveOutBound(Payload);
+
+    if (!data.error) {
+      message.success('Approved successfully');
+      this.getOutOfBand();
+    } else {
+      message.error('Something went wrong. please try again later.');
+    }
   }
 
   render() {
@@ -82,7 +95,8 @@ class OutOfBounds extends Component{
         title: 'Comments/Remarks',
         render: (record, item, index) => {
           return (
-            <Input name="comments" value={record.comments} size="small" onChange={(event) => this.onChange(event, index)} />
+            <TextArea autosize={{ minRows: 2, maxRows: 6 }} name="comments" value={record.comments} size="small" onChange={(event) => this.onChange(event, index)} />
+
           );
         },
       },

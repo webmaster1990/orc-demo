@@ -87,7 +87,7 @@ export class ApiService {
       }
     };
     let data = '';
-    const response = await axiosInstance.get('http://551101f6.ngrok.io/OOB-Service-1.0/getApprovalDetails', config).
+    const response = await axiosInstance.get(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/OOB-Service-1.0/getApprovalDetails`, config).
     catch((err) => {
       data = {error: err};
     });
@@ -103,7 +103,7 @@ export class ApiService {
       }
     };
     let resData = '';
-    const response = await axiosInstance.post('http://551101f6.ngrok.io/OOB-Service-1.0/postApprovalDetails',
+    const response = await axiosInstance.post(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/OOB-Service-1.0/postApprovalDetails`,
       data, config).catch((err) => {
       resData = {error: err};
     });
