@@ -12,7 +12,7 @@ const routes = [
   { path: '/audit-dashboard', name: 'Audit Dashboard', component: AuditDashboard },
   { path: '/failures', name: 'Failures', component: Failures },
   { path: '/settings', name: 'Settings', component: Settings },
-  { path: '/out-of-bands', name: 'Out Of Bands', component: OutOfBounds },
+  { path: '/out-of-bands', name: 'Out of Band - Unix', component: OutOfBounds },
 ];
 
 export default routes;

@@ -74,7 +74,7 @@ class Home extends Component{
                         <i className="icon-user icons d-block text-center"  style={{fontSize:100}}/>
                       </CardHeader>
                       <CardBody>
-                        <h4>Out of Band</h4>
+                        <h4>Out of Band – Unix</h4>
                       </CardBody>
                     </Card>
                   </Col>

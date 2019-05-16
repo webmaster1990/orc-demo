@@ -109,5 +109,21 @@ export class ApiService {
     });
     return resData || response.data;
   }
+  
+  async rejectOutBound(data) {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'API_TOKEN' : 'IhteShoc5Yu91cN+z+Uyxp4H+pMhIGZk8fmwII5EkFmG5VpiVlOzwcL5rlqXRHppOpOCpqV6ntp97qTIAckCPg==',
+        'APPLICATION_ID': '286BSAHER'
+      }
+    };
+    let resData = '';
+    const response = await axiosInstance.post(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/OOB-Service-1.0/postRejectDetails`,
+      data, config).catch((err) => {
+      resData = {error: err};
+    });
+    return resData || response.data;
+  }
 
 }

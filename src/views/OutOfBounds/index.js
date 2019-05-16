@@ -70,21 +70,42 @@ class OutOfBounds extends Component{
       message.error('Something went wrong. please try again later.');
     }
   }
+  
+  onReject = async (record) => {
+    message.config({
+      top: 110,
+    });
+    if (!record.empId.trim()) {
+      return message.error('Please enter emp id.')
+    }
+    const Payload =  {
+      appr_nbr: record.approvalNO,
+      eid: record.empId,
+      cmnt:record.comments,
+    };
+    const data = await this._dataContext.rejectOutBound(Payload);
+    if (!data.error) {
+      message.success('Rejected successfully');
+      this.getOutOfBand();
+    } else {
+      message.error('Something went wrong. please try again later.');
+    }
+  }
 
   render() {
     const { loading, outOfBounds = [] } = this.state;
     const columns = [
+      // {
+      //   title: 'Approval No',
+      //   width: 100,
+      //   render: (record) =>{
+      //     return(
+      //       <span>{record.approvalNO}</span>
+      //     )
+      //   }
+      // },
       {
-        title: 'Approval No',
-        width: 100,
-        render: (record) =>{
-          return(
-            <span>{record.approvalNO}</span>
-          )
-        }
-      },
-      {
-        title: 'Approver Emp. Id',
+        title: 'Employee ID',
         render: (record, item, index) => {
             return (
               <Input name="empId" value={record.empId} width={"50%"} size="small" onChange={(event) => this.onChange(event, index)}  />
@@ -104,7 +125,10 @@ class OutOfBounds extends Component{
         title: 'Action',
         render: (record) => {
           return(
-            <Button type={"primary"} size={"small"} onClick={() => this.onApprove(record)}>Approve</Button>
+            <>
+              <Button type={"primary"} size={"small"} onClick={() => this.onApprove(record)}>Approve</Button>
+              <Button className="ml-10" type={"primary"} size={"small"} onClick={() => this.onReject(record)}>Reject</Button>
+            </>
           )
         }
       }
@@ -120,7 +144,7 @@ class OutOfBounds extends Component{
                     <div>
                       <Row>
                         <Col sm="12" xs="12" md="12" className="mt-3">
-                          <h5>Out Of Band Approval</h5>
+                          <h5>Out Of Band - Unix Approvals</h5>
                           {
                             !outOfBounds.length ?
                               <div>No more request to approve.</div> :
