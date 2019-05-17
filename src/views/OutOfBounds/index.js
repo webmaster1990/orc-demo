@@ -29,12 +29,12 @@ class OutOfBounds extends Component{
         if (x === 'ID') {
           newState.batchId = resData[x];
         }
-        return resData[x] === 'false' || x === 'ID'
+        return resData[x] === 'false'
       }).map(key => {
         return {
           approvalNO: key,
           empId: '',
-          comments: ''
+          comments: '',
         }
       });
       newState.outOfBounds = data;
@@ -63,7 +63,8 @@ class OutOfBounds extends Component{
    const Payload =  {
      appr_nbr: record.approvalNO,
      eid: record.empId,
-     cmnt:record.comments,
+     cmnt: record.comments,
+     batchID: this.state.batchId ? this.state.batchId : null,
    };
     const data = await this._dataContext.apporveOutBound(Payload);
 
@@ -85,7 +86,8 @@ class OutOfBounds extends Component{
     const Payload =  {
       appr_nbr: record.approvalNO,
       eid: record.empId,
-      cmnt:record.comments,
+      cmnt: record.comments,
+      batchID: this.state.batchId ? this.state.batchId : null,
     };
     const data = await this._dataContext.rejectOutBound(Payload);
     if (!data.error) {
