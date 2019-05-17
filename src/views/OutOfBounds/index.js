@@ -11,6 +11,7 @@ class OutOfBounds extends Component{
   state = {
     outOfBounds: [],
     loading: false,
+    batchId: ''
   }
 
   componentDidMount() {
@@ -25,14 +26,17 @@ class OutOfBounds extends Component{
     const newState = {};
     if (resData || !resData.error) {
       const data = Object.keys(resData).filter(x => {
-        return resData[x] === 'false'
+        if (x === 'ID') {
+          newState.batchId = resData[x];
+        }
+        return resData[x] === 'false' || x === 'ID'
       }).map(key => {
         return {
           approvalNO: key,
           empId: '',
           comments: ''
         }
-      })
+      });
       newState.outOfBounds = data;
     }
     this.setState({
@@ -93,17 +97,8 @@ class OutOfBounds extends Component{
   }
 
   render() {
-    const { loading, outOfBounds = [] } = this.state;
+    const { loading, outOfBounds = [], batchId } = this.state;
     const columns = [
-      // {
-      //   title: 'Approval No',
-      //   width: 100,
-      //   render: (record) =>{
-      //     return(
-      //       <span>{record.approvalNO}</span>
-      //     )
-      //   }
-      // },
       {
         title: 'Employee ID',
         render: (record, item, index) => {
@@ -144,7 +139,7 @@ class OutOfBounds extends Component{
                     <div>
                       <Row>
                         <Col sm="12" xs="12" md="12" className="mt-3">
-                          <h5>Out Of Band - Unix Approvals</h5>
+                          <h5>Out Of Band - Unix Approvals {batchId ? <b>: BATCH ID - {batchId}</b> : null}</h5>
                           {
                             !outOfBounds.length ?
                               <div>No more request to approve.</div> :
