@@ -60,6 +60,9 @@ class OutOfBounds extends Component{
    if (!record.empId.trim()) {
     return message.error('Please enter emp id.')
    }
+   if (!record.comments.trim()) {
+    return message.error('Please enter comments/remarks')
+   }
    const Payload =  {
      appr_nbr: record.approvalNO,
      eid: record.empId,
@@ -67,7 +70,9 @@ class OutOfBounds extends Component{
      batchID: this.state.batchId ? this.state.batchId : null,
    };
     const data = await this._dataContext.apporveOutBound(Payload);
-
+    if (data.msg) {
+      return message.error(data.msg);
+    }
     if (!data.error) {
       message.success('Approved successfully');
       this.getOutOfBand();
@@ -83,6 +88,9 @@ class OutOfBounds extends Component{
     if (!record.empId.trim()) {
       return message.error('Please enter emp id.')
     }
+    if (!record.comments.trim()) {
+      return message.error('Please enter comments/remarks')
+    }
     const Payload =  {
       appr_nbr: record.approvalNO,
       eid: record.empId,
@@ -90,6 +98,9 @@ class OutOfBounds extends Component{
       batchID: this.state.batchId ? this.state.batchId : null,
     };
     const data = await this._dataContext.rejectOutBound(Payload);
+    if (data.msg) {
+      return message.error(data.msg);
+    }
     if (!data.error) {
       message.success('Rejected successfully');
       this.getOutOfBand();
