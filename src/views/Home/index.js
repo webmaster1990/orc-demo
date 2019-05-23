@@ -21,7 +21,7 @@ class Home extends Component{
   }
 
   outOfBounds = () =>{
-    this.props.history.push("/out-of-bands");
+    this.props.history.push("/out-of-band");
   }
 
   auditDashboardModalOpen = () => {

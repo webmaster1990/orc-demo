@@ -24,7 +24,7 @@ class OutOfBounds extends Component{
     });
     let resData = await this._dataContext.getOutOfbands();
     const newState = {};
-    if (resData || !resData.error) {
+    if (resData && !resData.error) {
       const data = Object.keys(resData).filter(x => {
         if (x === 'ID') {
           newState.batchId = resData[x];
@@ -38,6 +38,11 @@ class OutOfBounds extends Component{
         }
       });
       newState.outOfBounds = data;
+    } else {
+      message.config({
+        top: 110,
+      });
+      message.error('Something went wrong. please try again later.');
     }
     this.setState({
       loading: false,

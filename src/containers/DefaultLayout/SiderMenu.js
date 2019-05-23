@@ -46,8 +46,8 @@ class SiderMenu extends React.Component {
                 </Link>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="out-of-bands">
-              <Link to='/out-of-bands'>
+            <Menu.Item key="out-of-band">
+              <Link to='/out-of-band'>
                 <Icon type='appstore'/>
                 <span>Out of Band - Unix</span>
               </Link>
