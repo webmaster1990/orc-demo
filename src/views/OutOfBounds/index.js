@@ -42,7 +42,7 @@ class OutOfBounds extends Component{
       message.config({
         top: 110,
       });
-      message.error('Something went wrong. please try again later.');
+      message.error('Something went wrong. please try again later.', 2);
     }
     this.setState({
       loading: false,
@@ -61,12 +61,13 @@ class OutOfBounds extends Component{
   onApprove = async (record) => {
     message.config({
       top: 110,
+      duration: 2
     });
    if (!record.empId.trim()) {
-    return message.error('Please enter emp id.')
+    return message.error('Please enter emp id.', 2)
    }
    if (!record.comments.trim()) {
-    return message.error('Please enter comments/remarks')
+    return message.error('Please enter comments/remarks', 2)
    }
    const Payload =  {
      appr_nbr: record.approvalNO,
@@ -76,13 +77,13 @@ class OutOfBounds extends Component{
    };
     const data = await this._dataContext.apporveOutBound(Payload);
     if (data.msg) {
-      return message.error(data.msg);
+      return message.error(data.msg, 2);
     }
     if (!data.error) {
-      message.success('Approved successfully');
+      message.success('Approved successfully', 2);
       this.getOutOfBand();
     } else {
-      message.error('Something went wrong. please try again later.');
+      message.error('Something went wrong. please try again later.', 2);
     }
   }
   
@@ -91,10 +92,10 @@ class OutOfBounds extends Component{
       top: 110,
     });
     if (!record.empId.trim()) {
-      return message.error('Please enter emp id.')
+      return message.error('Please enter emp id.', 2)
     }
     if (!record.comments.trim()) {
-      return message.error('Please enter comments/remarks')
+      return message.error('Please enter comments/remarks', 2)
     }
     const Payload =  {
       appr_nbr: record.approvalNO,
@@ -104,13 +105,13 @@ class OutOfBounds extends Component{
     };
     const data = await this._dataContext.rejectOutBound(Payload);
     if (data.msg) {
-      return message.error(data.msg);
+      return message.error(data.msg, 2);
     }
     if (!data.error) {
-      message.success('Rejected successfully');
+      message.success('Rejected successfully', 2);
       this.getOutOfBand();
     } else {
-      message.error('Something went wrong. please try again later.');
+      message.error('Something went wrong. please try again later.', 2);
     }
   }
 

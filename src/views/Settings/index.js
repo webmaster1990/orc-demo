@@ -24,7 +24,7 @@ class Settings extends Component{
       top: 100,
       duration: 2,
     });
-    message.success('config data saved successfully!')
+    message.success('config data saved successfully!', 2)
   }
   
   render() {

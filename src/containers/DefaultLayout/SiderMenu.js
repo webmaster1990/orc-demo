@@ -30,11 +30,11 @@ class SiderMenu extends React.Component {
               </Link>
             </Menu.Item>
             <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>Terminations</span></span>}>
-              <Menu.Item key="Terminations">
-                <Link to='/audit-dashboard'>
-                  <span>Audit Dashboard</span>
-                </Link>
-              </Menu.Item>
+              {/*<Menu.Item key="Terminations">*/}
+                {/*<Link to='/audit-dashboard'>*/}
+                  {/*<span>Audit Dashboard</span>*/}
+                {/*</Link>*/}
+              {/*</Menu.Item>*/}
               <Menu.Item key="Failures">
                 <Link to='/failures'>
                   <span>Failures</span>
