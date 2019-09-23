@@ -40,7 +40,7 @@ class Home extends Component{
           <ModalBody>
             <Row>
               <Col md="12" className="mt-2 mb-2 text-center">
-                <Button type="button" color="primary" className="btn-lg" onClick={this.auditDashboard}>Audit Dashboard</Button>
+                {/*<Button type="button" color="primary" className="btn-lg" onClick={this.auditDashboard}>Audit Dashboard</Button>*/}
                 <Button type="button" color="danger" className="btn-lg ml-2" onClick={this.failures}>Failures</Button>
               </Col>
             </Row>
