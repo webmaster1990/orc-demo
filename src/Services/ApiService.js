@@ -17,7 +17,10 @@ const axiosInstance = axios.create({
 
 export class ApiService {
 
-  getAuthToken = () => 'fhsmrfrrscavdsaeaeifmdadadmvassaewwqqwldcqor' || localStorage.getItem('access_token');
+  getAuthToken = () =>  `Authorization ${localStorage.getItem('access_token')}`;
+  getApiHost = () =>  localStorage.getItem('apiHost');
+  applicationId = () => localStorage.getItem('applicationId');
+
 
   async getData(url, headers, cancelToken) {
     const config = {
@@ -66,16 +69,16 @@ export class ApiService {
 
   async getAuditDataUserTermination() {
     const topic = localStorage.getItem('topic1') || 'User_Termination_processV1';
-    return this.getData(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/AuditService/jersey/api/v1/allMessage?topic=${topic}`);
+    return this.getData(`${this.getApiHost()}/AuditService/jersey/api/v1/allMessage?topic=${topic}`);
   }
 
   async getAuditDataRetryFailed() {
     const topic = localStorage.getItem('topic2') || 'Retry_failed_transaction_processV1';
-    return this.getData(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/AuditService/jersey/api/v1/allMessage?topic=${topic}`);
+    return this.getData(`${this.getApiHost()}/AuditService/jersey/api/v1/allMessage?topic=${topic}`);
   }
 
   async getFailures() {
-    return this.getData(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/scimretry/jersey/retrytask/manual`);
+    return this.getData(`/scimretry/jersey/retrytask/${this.applicationId()}/manual`);
   }
 
   async getOutOfbands() {
@@ -87,7 +90,7 @@ export class ApiService {
       }
     };
     let data = '';
-    const response = await axiosInstance.get(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/OOB-Service-1.0/getApprovalDetails`, config).
+    const response = await axiosInstance.get(`${this.getApiHost()}/OOB-Service-1.0/getApprovalDetails`, config).
     catch((err) => {
       data = {error: err};
     });
@@ -103,13 +106,13 @@ export class ApiService {
       }
     };
     let resData = '';
-    const response = await axiosInstance.post(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/OOB-Service-1.0/postApprovalDetails`,
+    const response = await axiosInstance.post(`${this.getApiHost()}/OOB-Service-1.0/postApprovalDetails`,
       data, config).catch((err) => {
       resData = {error: err};
     });
     return resData || response.data;
   }
-  
+
   async rejectOutBound(data) {
     const config = {
       headers: {
@@ -119,11 +122,18 @@ export class ApiService {
       }
     };
     let resData = '';
-    const response = await axiosInstance.post(`${(localStorage.getItem('apiHost') || 'http://132.145.170.253:8080')}/OOB-Service-1.0/postRejectDetails`,
+    const response = await axiosInstance.post(`${this.getApiHost()}/OOB-Service-1.0/postRejectDetails`,
       data, config).catch((err) => {
       resData = {error: err};
     });
     return resData || response.data;
+  }
+
+  async retry(payload) {
+    const headers = {
+      applicationId: this.applicationId()
+    };
+    return this.postMethod(`/scimretry/jersey/retrytask/${this.applicationId()}/retry`, payload, headers);
   }
 
 }

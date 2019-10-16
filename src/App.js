@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
+import Axios from 'axios';
 import { createBrowserHistory } from 'history'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -60,7 +61,27 @@ const RedirectRoute = ({ component: Component }) => (
 
 class App extends Component {
 
+  state = {
+    isLoading: true,
+  }
+
+  async componentWillMount() {
+    const config = await Axios.get('/config.json');
+    if (config) {
+        localStorage.setItem('access_token', config.data.access_token);
+        localStorage.setItem('apiHost', config.data.apiHost);
+        localStorage.setItem('applicationId', config.data.applicationId);
+        localStorage.setItem('filepath', config.data.filepath);
+    }
+    this.setState({
+      isLoading: false,
+    })
+  }
+
   render() {
+    if (this.state.isLoading) {
+      return <div />
+    }
     return (
      <Provider store={store}>
         <BrowserRouter history={history} basename={'/sysadmin'}>
