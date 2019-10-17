@@ -37,12 +37,18 @@ class Failures extends Component{
           filterUserId: ''
         });
         return message.error('Something is wrong! please try again!')
+      } else {
+        if (failuresData.status === 'success') {
+          this.setState({
+            failuresLoading: false,
+            retryTransnationalData: (failuresData && failuresData.details) || [],
+            filterUserId: ''
+          })
+        }
       }
+      
       this.setState({
         failuresLoading: false,
-       // retryTransnationalData: (failuresData && failuresData.details) || [],
-        retryTransnationalData: (failuresData) || [],
-        filterUserId: ''
       })
 
   }
@@ -66,7 +72,6 @@ class Failures extends Component{
 
   getCSVData = () => {
     const { retryTransnationalData } = this.state;
-    debugger
     return (retryTransnationalData || []).map(item => {
       return {
         createOn: item.createOn,
@@ -92,7 +97,7 @@ class Failures extends Component{
       }
     }
     const data = await this._dataContext.retry(payload)
-    if (data) {
+    if (data && !data.error && data.status === 'success') {
       this.getFailures();
     }
   }
