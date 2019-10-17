@@ -86,7 +86,7 @@ class Failures extends Component{
 
   onRetry = async (record) =>{
     const filePath = localStorage.getItem('filepath');
-    const payload = {
+    const payload = [{
       uniqueID: record.uniqueID,
       accountID: record.accountID,
       applicationName: record.applicationName,
@@ -95,7 +95,7 @@ class Failures extends Component{
         auditTopic: record.auditConfig.auditTopic || '',
         auditID: record.auditConfig.auditID || '',
       }
-    }
+    }];
     const data = await this._dataContext.retry(payload)
     if (data && !data.error && data.status === 'success') {
       this.getFailures();
