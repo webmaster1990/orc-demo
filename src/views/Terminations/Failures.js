@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { Button, Card, CardBody, Col, Row,} from "reactstrap";
-import { Table, Input } from 'antd';
+import { Table, Input, message } from 'antd';
 import { CSVLink } from "react-csv";
 import {ApiService} from "../../Services/ApiService";
 import { PropagateLoader } from 'react-spinners';
@@ -31,6 +31,13 @@ class Failures extends Component{
         failuresLoading: true,
       });
       const failuresData = await this._dataContext.getFailures();
+      if(!failuresData || failuresData.error){
+        this.setState({
+          failuresLoading: false,
+          filterUserId: ''
+        });
+        return message.error('Something is wrong! please try again!')
+      }
       this.setState({
         failuresLoading: false,
        // retryTransnationalData: (failuresData && failuresData.details) || [],
@@ -58,8 +65,9 @@ class Failures extends Component{
   }
 
   getCSVData = () => {
-    const { retryTransnationalData = [] } = this.state;
-    return retryTransnationalData.map(item => {
+    const { retryTransnationalData } = this.state;
+    debugger
+    return (retryTransnationalData || []).map(item => {
       return {
         createOn: item.createOn,
         userId: item.userObject && item.userObject.EmployeeID,
