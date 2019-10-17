@@ -66,7 +66,7 @@ class App extends Component {
   }
 
   async componentWillMount() {
-    const config = await Axios.get('/config.json');
+    const config = await Axios.get(`${process.env.PUBLIC_URL}/config.json`);
     if (config) {
         localStorage.setItem('access_token', config.data.access_token);
         localStorage.setItem('apiHost', config.data.apiHost);

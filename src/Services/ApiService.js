@@ -17,7 +17,7 @@ const axiosInstance = axios.create({
 
 export class ApiService {
 
-  getAuthToken = () =>  `Authorization ${localStorage.getItem('access_token')}`;
+  getAuthToken = () =>  `${localStorage.getItem('access_token')}`;
   getApiHost = () =>  localStorage.getItem('apiHost');
   applicationId = () => localStorage.getItem('applicationId');
 
