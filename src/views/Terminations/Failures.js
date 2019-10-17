@@ -17,187 +17,7 @@ const headers = [
 class Failures extends Component{
   _dataContext = new ApiService();
   state = {
-    retryTransnationalData: [
-      {
-        "uniqueID": 82,
-        "accountID": "e11999999",
-        "maxAutoRetry": 3,
-        "maxManualRetry": 3,
-        "autoRetryCount": 4,
-        "manualRetryCount": 4,
-        "applicationID": "017ZIIID",
-        "applicationName": "RSA_MastercardDemo",
-        "userObject": {
-          "User_ID": "e100009",
-          "First_Name": "John",
-          "Middle_Initial": "C",
-          "Last_Name": "Doe",
-          "Job_Status": "T",
-          "Supervisor": "Bob",
-          "Title": "Consultant",
-          "Division": "Corporate Security",
-          "Flex_String": "qwerty1",
-          "Flex_Company": "Mastercard",
-          "Flex_Cost_Center": "e11",
-          "Flex_Division2": "SL",
-          "Flex_Geo": "abc",
-          "Location": "Mastercard Blvd",
-          "Address": "2200 Mastercard Blvd",
-          "City": "Saint Louis",
-          "State": "Missouri",
-          "Zip": "63368",
-          "Country": "USA",
-          "Country_Code": "1",
-          "Country_Number": "1",
-          "Region": "North America",
-          "HR_Business_partner": "Mahendra K",
-          "Acquisition": "",
-          "Network_Location_Id": "6516",
-          "Flex_Division": "BU",
-          "Position_ID": "645",
-          "Termination_Date": "10-Sep-2019",
-          "Department": "Corporate Security",
-          "Employment_Status": "Terminated",
-          "Is_Terminated": "Y",
-          "Group_Executive": "",
-          "Employee_ID": "e11999999",
-          "Matrix_Manager": "",
-          "Phone_Number": "732377397",
-          "Fax_Number": "72772",
-          "Extension": "21",
-          "Mobile_Phone_Number": "4987654258",
-          "Cube_Address": "xc45",
-          "Career_Level_Description": "1",
-          "Career_Level_Code": "xy1",
-          "Hire_Date": "10-May-02",
-          "PRIMARY_ID": "e11999999"
-        },
-        "auditConfig": {},
-        "createOn": "16/10/2019 03:52:22:822EDT",
-        "updateOn": [
-          {
-            "order": 1,
-            "triggeredOn": "16/10/2019 03:53:00:602EDT",
-            "reason": "ERROR: Unable to find user e11999999."
-          },
-          {
-            "order": 2,
-            "triggeredOn": "16/10/2019 03:53:17:70EDT",
-            "reason": "ERROR: Unable to find user e11999999."
-          },
-          {
-            "order": 3,
-            "triggeredOn": "16/10/2019 04:00:25:167EDT",
-            "reason": "ERROR: Unable to find user e11999999."
-          },
-          {
-            "order": 4,
-            "triggeredOn": "16/10/2019 06:00:00:447EDT",
-            "reason": "ERROR: Unable to find user e11999999."
-          },
-          {
-            "order": 5,
-            "triggeredOn": "16/10/2019 16:29:10:674IST",
-            "reason": "ERROR: Unable to find user e11999999."
-          },
-          {
-            "order": 6,
-            "triggeredOn": "16/10/2019 16:29:32:614IST",
-            "reason": "ERROR: Unable to find user e11999999."
-          },
-          {
-            "order": 7,
-            "triggeredOn": "16/10/2019 16:30:49:711IST",
-            "reason": "ERROR: Unable to find user e11999999."
-          },
-          {
-            "order": 8,
-            "triggeredOn": "16/10/2019 16:33:43:410IST",
-            "reason": "ERROR: Unable to find user e11999999."
-          }
-        ]
-      },
-      {
-        "uniqueID": 83,
-        "accountID": "e11999999",
-        "maxAutoRetry": 3,
-        "maxManualRetry": 3,
-        "autoRetryCount": 4,
-        "manualRetryCount": 0,
-        "applicationID": "017ZIIID",
-        "applicationName": "RSA_MastercardDemo",
-        "userObject": {
-          "User_ID": "e100009",
-          "First_Name": "John",
-          "Middle_Initial": "C",
-          "Last_Name": "Doe",
-          "Job_Status": "T",
-          "Supervisor": "Bob",
-          "Title": "Consultant",
-          "Division": "Corporate Security",
-          "Flex_String": "qwerty1",
-          "Flex_Company": "Mastercard",
-          "Flex_Cost_Center": "e11",
-          "Flex_Division2": "SL",
-          "Flex_Geo": "abc",
-          "Location": "Mastercard Blvd",
-          "Address": "2200 Mastercard Blvd",
-          "City": "Saint Louis",
-          "State": "Missouri",
-          "Zip": "63368",
-          "Country": "USA",
-          "Country_Code": "1",
-          "Country_Number": "1",
-          "Region": "North America",
-          "HR_Business_partner": "Mahendra K",
-          "Acquisition": "",
-          "Network_Location_Id": "6516",
-          "Flex_Division": "BU",
-          "Position_ID": "645",
-          "Termination_Date": "10-Sep-2019",
-          "Department": "Corporate Security",
-          "Employment_Status": "Terminated",
-          "Is_Terminated": "Y",
-          "Group_Executive": "",
-          "Employee_ID": "e11999999",
-          "Matrix_Manager": "",
-          "Phone_Number": "732377397",
-          "Fax_Number": "72772",
-          "Extension": "21",
-          "Mobile_Phone_Number": "4987654258",
-          "Cube_Address": "xc45",
-          "Career_Level_Description": "1",
-          "Career_Level_Code": "xy1",
-          "Hire_Date": "10-May-02",
-          "PRIMARY_ID": "e11999999"
-        },
-        "auditConfig": {},
-        "createOn": "16/10/2019 04:28:16:274EDT",
-        "updateOn": [
-          {
-            "order": 1,
-            "triggeredOn": "16/10/2019 04:30:00:448EDT",
-            "reason": "ERROR: Unable to find user e11999999."
-          },
-          {
-            "order": 2,
-            "triggeredOn": "16/10/2019 04:35:00:450EDT",
-            "reason": "ERROR: Unable to find user e11999999."
-          },
-          {
-            "order": 3,
-            "triggeredOn": "16/10/2019 04:40:00:466EDT",
-            "reason": "ERROR: Unable to find user e11999999."
-          },
-          {
-            "order": 4,
-            "triggeredOn": "16/10/2019 06:00:00:803EDT",
-            "reason": "ERROR: Unable to find user e11999999."
-          }
-        ]
-      }
-    ],
-    retryTransnationalDataBack: [],
+    retryTransnationalData: [],
     failuresLoading: false,
     filterUserId: ''
   }
@@ -214,7 +34,7 @@ class Failures extends Component{
       this.setState({
         failuresLoading: false,
        // retryTransnationalData: (failuresData && failuresData.details) || [],
-        retryTransnationalDataBack: (failuresData && failuresData.details) || [],
+        retryTransnationalData: (failuresData) || [],
         filterUserId: ''
       })
 
@@ -227,8 +47,8 @@ class Failures extends Component{
   }
 
   onFilter = () => {
-    const {retryTransnationalDataBack, filterUserId} = this.state;
-    const retryTransnationalData = retryTransnationalDataBack.filter(record => {
+    let {retryTransnationalData, filterUserId} = this.state;
+    retryTransnationalData = retryTransnationalData.filter(record => {
       return (record.userObject && record.userObject.EmployeeID && record.userObject.EmployeeID.toLowerCase().includes(filterUserId));
     })
     this.setState({
@@ -264,7 +84,9 @@ class Failures extends Component{
       }
     }
     const data = await this._dataContext.retry(payload)
-    console.log(data)
+    if (data) {
+      this.getFailures();
+    }
   }
 
   render() {

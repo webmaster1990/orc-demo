@@ -78,7 +78,7 @@ export class ApiService {
   }
 
   async getFailures() {
-    return this.getData(`/scimretry/jersey/retrytask/${this.applicationId()}/manual`);
+    return this.getData(`${this.getApiHost()}/scimretry/jersey/retrytask/${this.applicationId()}/manual`);
   }
 
   async getOutOfbands() {
@@ -130,10 +130,7 @@ export class ApiService {
   }
 
   async retry(payload) {
-    const headers = {
-      applicationId: this.applicationId()
-    };
-    return this.postMethod(`/scimretry/jersey/retrytask/${this.applicationId()}/retry`, payload, headers);
+    return this.postMethod(`${this.getApiHost()}/scimretry/jersey/retrytask/${this.applicationId()}/retry`, payload);
   }
 
 }
